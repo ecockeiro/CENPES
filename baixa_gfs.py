@@ -12,21 +12,16 @@ from netCDF4 import num2date
 from siphon.catalog import TDSCatalog
 
 
-dia = 17
-count = 0
-forecast = 0 #+8
-
-# Contador de dias com delay
-while count <= 13:
-    # Abre o catalogo
-    dados_gfs = TDSCatalog(f'https://rda.ucar.edu/thredds/catalog/files/g/ds084.1/2022/202205{dia}/catalog.xml')
-    validade = dados_gfs.datasets[:25+forecast]
+def delay(dia_inicial,dia_final,int_forecast=17,fator_multi=1):
+    #int_forecast = intervalo final das rodadas
+    #fator_multi = fator multiplicativo do limite da rodada x 8
+    delta_t = dia_inicial - dia_final
+    count = 0
     
-    for indice in range(len(validade)):
-        print (indice)
-        for rodada in validade[indice]:
-            print(rodada)
-        
-
-count = count + 1
-forecast = forecast + 8    
+    if 
+    soma_fator = 8*1
+    int_forecast = int_forecast + soma_fator
+    dados_gfs = TDSCatalog(f'https://rda.ucar.edu/thredds/catalog/files/g/ds084.1/2022/202205{dia_inicial}/catalog.xml')
+    validade = dados_gfs.datasets[:int_forecast:2]
+    delta_t = dia_inicial - dia_final
+    
