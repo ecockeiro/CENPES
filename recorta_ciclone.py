@@ -5,6 +5,13 @@ Created on Fri Jan 27 09:43:04 2023
 
 @author: everson
 """
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb  1 14:59:40 2023
+
+@author: ladsin
+"""
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -18,13 +25,21 @@ df = pd.read_csv('/work/archive/Everson/Coqueiro/CENPES/DADOS/Tracks_planilhas/d
 latmin, latmax = -45, -20
 lonmin, lonmax = -60, -35
 
-        
-#converte e recorta latitude/longitude
-df['Longitude'] = (((df['Longitude']+180) %360) -180)
-data = df[(df.Longitude>=-55) & (df.Longitude<=-40) & (df.Latitude<=-29) & (df.Latitude>=-38)].copy()
+# #converte e recorta latitude/longitude
+# df['Longitude'] = (((df['Longitude']+180) %360) -180)
+# data = df[(df.Longitude>=-55) & (df.Longitude<=-40) & (df.Latitude<=-29) & (df.Latitude>=-38)].copy()
+
+# Conta a ocorrência de cada item
+counts = df['N_do_Ciclone'].value_counts()
+
+# Cria uma lista com os itens a serem removidos
+itens_para_remover = counts[counts < 6].index.tolist()
+
+# Remove os itens da lista do DataFrame
+df = df[~df['N_do_Ciclone'].isin(itens_para_remover)]
 
 #salva a planilha recortada
-data.to_csv('/work/archive/Everson/Coqueiro/CENPES/DADOS/Track_recortados/d-12.csv')    
+df.to_csv('/work/archive/Everson/Coqueiro/CENPES/DADOS/Tracks_planilhas/nova_planilha.csv')    
 
 #plota os tracks
 fig = plt.figure(figsize=(10,5))
@@ -81,10 +96,10 @@ def plot_cyclones(ciclone):
 
 
 
-ciclones = list( dict.fromkeys(data.N_do_Ciclone) )
+ciclones = list( dict.fromkeys(df.N_do_Ciclone) )
 
 for Ciclone in ciclones:
-    one_ciclone = data[(data.N_do_Ciclone == Ciclone)].copy()
+    one_ciclone = df[(df.N_do_Ciclone == Ciclone)].copy()
     plot_cyclones(one_ciclone)
     
     
