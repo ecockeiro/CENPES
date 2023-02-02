@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jan 27 09:43:04 2023
+Created on Wed Feb  1 14:59:40 2023
 
 @author: everson
 """
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb  1 14:59:40 2023
 
-@author: ladsin
-"""
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import pandas as pd
