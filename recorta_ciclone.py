@@ -13,27 +13,28 @@ import cartopy.feature as cfeature
 import numpy as np
 
 #dataset
-df = pd.read_csv('/work/archive/Everson/Coqueiro/CENPES/DADOS/Tracks_planilhas/d-12.csv', sep=',')
+path = np.array(pd.read_csv('/home/everson/CENPES/rodadas_para_analisar/analise.csv', usecols=[0, 1, 2, 3, 4]))
+df = pd.DataFrame(path, columns = ['N_do_Ciclone', 'Data', 'Longitude', 'Latitude', 'Vorticidade'])
 
 #lat e lon extend da imagem
 latmin, latmax = -45, -20
 lonmin, lonmax = -60, -35
 
 # #converte e recorta latitude/longitude
-# df['Longitude'] = (((df['Longitude']+180) %360) -180)
-# data = df[(df.Longitude>=-55) & (df.Longitude<=-40) & (df.Latitude<=-29) & (df.Latitude>=-38)].copy()
+df['Longitude'] = (((df['Longitude']+180) %360) -180)
+df = df[(df.Longitude>=-55) & (df.Longitude<=-40) & (df.Latitude<=-29) & (df.Latitude>=-38)].copy()
 
 # Conta a ocorrência de cada item
 counts = df['N_do_Ciclone'].value_counts()
 
 # Cria uma lista com os itens a serem removidos
-itens_para_remover = counts[counts < 6].index.tolist()
+itens_para_remover = counts[counts < 3].index.tolist()
 
 # Remove os itens da lista do DataFrame
 df = df[~df['N_do_Ciclone'].isin(itens_para_remover)]
 
 #salva a planilha recortada
-df.to_csv('/work/archive/Everson/Coqueiro/CENPES/DADOS/Tracks_planilhas/nova_planilha.csv')    
+df.to_csv('/home/everson/CENPES/rodadas_para_analisar/analise.csv', index=False)    
 
 #plota os tracks
 fig = plt.figure(figsize=(10,5))
