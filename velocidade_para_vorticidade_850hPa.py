@@ -77,5 +77,5 @@ for j in range(len(dia)):
     
     
     ## após criar o dado, dar o comando seguinte no terminal na pasta que salvou o dado para converter o reftime
-    ##> ncap2 -s 'time=double(time)' D.nc D_2.nc
+    ##> ncap2 -O -s 'time=double(time)' D.nc D_2.nc
  
