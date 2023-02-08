@@ -25,6 +25,26 @@ import glob
 
 # I - Carrega a pasta contendo todas as planilhas dos Tracks
 
+# I - Carrega a pasta contendo todas as planilhas dos Tracks
+
+# # função que lê as pastas em um diretório
+# def get_folders(directory):
+#     return [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
+
+
+# # diretório
+# directories = '/media/ladsin/DATA/Everson/Cenpes/Dados/Tracks_planilhas'
+
+# # lista de pasta para serem selecionadas
+# folders = get_folders(directories)
+
+
+# # loop através de cada diretório e ler arquivos csv
+# for j in range(len(folders)):
+#     path_name = str(directories) + '/' + str(folders[j])
+#     datafiles = glob.glob(f'{path_name}/*.csv')
+#     datafiles.sort()
+
 # lista de diretórios a serem verificados
 directories = '/home/everson/Siac/Siac/Dados/Track_validado_2010_2019/Master'
 
@@ -115,18 +135,18 @@ for j in range(len(anos)):
         
         # Criação da projeção polar centrada na Antártica
 
-        ax = plt.axes(projection=ccrs.SouthPolarStereo())
+        # ax = plt.axes(projection=ccrs.SouthPolarStereo())
 
-        gl = ax.gridlines(crs=ccrs.PlateCarree(), **args)
-        gl.xlabel_style = {'size': 15, 'color': 'black', 'rotation': 0}
-        gl.ylabel_style = {'size': 15, 'color': 'Gray', 'rotation': 0}
-        gl.top_labels = False
-        gl.right_labels = False
-        gl.bottom_labels = True
-        gl.rotate_labels = True
-        ax.set_extent([lonmin, lonmax, latmin, latmax], ccrs.PlateCarree())
-        ax.add_feature(cfeature.LAND)
-        ax.coastlines(resolution='50m', color='black', linewidth=1)
+        # gl = ax.gridlines(crs=ccrs.PlateCarree(), **args)
+        # gl.xlabel_style = {'size': 15, 'color': 'black', 'rotation': 0}
+        # gl.ylabel_style = {'size': 15, 'color': 'Gray', 'rotation': 0}
+        # gl.top_labels = False
+        # gl.right_labels = False
+        # gl.bottom_labels = True
+        # gl.rotate_labels = True
+        # ax.set_extent([lonmin, lonmax, latmin, latmax], ccrs.PlateCarree())
+        # ax.add_feature(cfeature.LAND)
+        # ax.coastlines(resolution='50m', color='black', linewidth=1)
         
         
         #one_ciclone = data[(data.N_do_Ciclone == 200)].copy()
