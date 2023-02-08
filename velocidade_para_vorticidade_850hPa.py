@@ -1,16 +1,10 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 11 12:52:28 2022
-
-@author: ladsin
 """
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov 11 12:52:28 2022
 
-@author: ladsin
+@author: everson
 """
 
 from datetime import datetime
