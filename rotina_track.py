@@ -21,6 +21,10 @@ for arquivo in os.listdir(caminho_dados):
         caminho_origem = os.path.join("/home/everson/TRACK-1.5.0/outdat", "specfil.filt_band000")
         caminho_destino = os.path.join("/home/everson/TRACK-1.5.0/outdat", nome_arquivo_sem_extensao + ".dat")
         os.rename(caminho_origem, caminho_destino)
+        caminho_origem = caminho_destino
+        caminho_destino = os.path.join(caminho_dados, nome_arquivo_sem_extensao + ".dat")
+        os.rename(caminho_origem, caminho_destino)
+        
         
 # Percorra todos os arquivos .dat na pasta indat e execute o comando ./master com as opções especificadas
 for arquivo in os.listdir(caminho_dados):
