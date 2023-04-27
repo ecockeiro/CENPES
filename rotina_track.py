@@ -16,24 +16,39 @@ import pandas as pd
 import cartopy.feature as cfeature
 import glob 
 import os
+import shutil
+
+# Paths
+
+# Diretório dos dados .nc de componente u e v
+diretorio_pastas = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/arquivos_nc/'
+
+# Diretorio do indat TRACK
+indat = "/home/bjerknes/TRACK-1.5.0/indat" 
+
+# Diretorio do outdat TRACK
+outdat = "/home/bjerknes/TRACK-1.5.0/outdat"
+
+# Definindo o caminho para a pasta onde estão os arquivos .gz
+caminho_dados_tr_trs_neg = "/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/master_track"
+
+# Diretorio ../utils/bin
+utils_bin = '/home/bjerknes/TRACK-1.5.0/utils/bin'
 
 
 # # função que lê as pastas em um diretório
 # def get_folders(directory):
 #     return [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
 
-# # diretório dos dados .nc de componente u e v
-# directories = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Raoni/dados_input_vort'
-
 # # lista de pasta para serem selecionadas
-# folders = get_folders(directories)
+# folders = get_folders(diretorio_pastas)
 # folders.sort(reverse=True)
 
 # # Converte as componentes u e v em vorticidade relativa 
 # for j in range(len(folders)):
-#     # path_name = str(directories) + '/' + str(folders[j])
+#     # path_name = str(diretorio_pastas) + '/' + str(folders[j])
     
-#     path_name = os.path.join(directories, folders[j])
+#     path_name = os.path.join(diretorio_pastas, folders[j])
     
 #     ## Abre os dados na pasta
 #     data = xr.open_mfdataset(f'{path_name}/*grib2.nc')
@@ -65,76 +80,104 @@ import os
 #     data = data.chunk()
 
 #     # Salva no arquivo netcdf
-#     fname = f'/home/everson/Programas/track-master/indat/{(Data)}.nc'
-#     data.to_netcdf(f'/home/everson/Programas/track-master/indat/{(Data)}.nc')
+#     fname = f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/vort_nc/{(Data)}.nc'
+    
+#     data.to_netcdf(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/vort_nc/{(Data)}.nc')
     
 #     os.system("ncap2 -O -s 'time=double(time)' {} {}".format(fname,fname))
+#     shutil.copy(fname,indat)
 #     print ('finished saving')
 
-# # Defina o caminho para a pasta contendo os dados .nc
-# caminho_dados = "/home/everson/Programas/track-master/indat"
 
 # # Percorra todos os arquivos .nc na pasta e execute o comando bin/track.linux com o filtro especificado em specfiltT42.in
-# for arquivo in os.listdir(caminho_dados):
+# for arquivo in os.listdir(indat):
 #     sorted(arquivo)
 #     if arquivo.endswith(".nc"):
 #         nome_arquivo_sem_extensao = os.path.splitext(arquivo)[0]
-#         comando = f"/home/everson/Programas/track-master/bin/track.linux -i {arquivo} -f filt < /home/everson/Programas/track-master/filtro_gfs.in"
-#         os.system(comando)
+#         os.system(f"/home/bjerknes/TRACK-1.5.0/bin/track.linux -i {arquivo} -f filt < /home/bjerknes/TRACK-1.5.0/filtro_gfs.in")
         
-#         caminho_origem = os.path.join("/home/everson/Programas/track-master/outdat", "specfil.filt_band000")
-#         caminho_destino = os.path.join("/home/everson/Programas/track-master/outdat", nome_arquivo_sem_extensao + ".dat")
-#         os.rename(caminho_origem, caminho_destino)
+#         caminho_spectral = os.path.join(outdat, "specfil.filt_band000")
+#         caminho_dat = os.path.join(outdat, nome_arquivo_sem_extensao + ".dat")
+#         os.system('mv ' + caminho_spectral + ' ' + caminho_dat)
         
-#         caminho_origem = caminho_destino
-#         caminho_destino = os.path.join(caminho_dados, nome_arquivo_sem_extensao + ".dat")
-#         os.rename(caminho_origem, caminho_destino)
+#         caminho_spectral = caminho_dat
+#         caminho_dat = os.path.join(indat, nome_arquivo_sem_extensao + ".dat")
+#         os.system('mv ' + caminho_spectral + ' ' + caminho_dat)
+        
+
+# # Muda para pasta TRACK
+# os.chdir('/home/bjerknes/TRACK-1.5.0/') 
         
 # # Percorra todos os arquivos .dat na pasta indat e execute o comando ./master com as opções especificadas
-# for arquivo in os.listdir(caminho_dados):
+# for arquivo in os.listdir(indat):
 #     if arquivo.endswith(".dat"):
 #         nome_arquivo_sem_extensao = os.path.splitext(arquivo)[0]
-#         comando = f"./master -c={nome_arquivo_sem_extensao} -d=now -e=track.linux -i={arquivo} -f=vo1991 -n=1,1000,1 -o=/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Raoni/track_raoni/master_raoni_novo -r=RUN_AT_ -s=RUNDATIN.VOR -j=RUN_AT.in"
-#         os.system(comando)
-         
-# Definindo o caminho para a pasta onde estão os arquivos .gz
-caminho_dados = "/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/tracks_rodadados_tr_passo_3/Extratropical/"
+#         os.system(f"./master -c={nome_arquivo_sem_extensao} -d=now -e=track.linux -i={arquivo} -f=vo1991 -n=1,1000,1 -o=/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/master_track -r=RUN_AT_ -s=RUNDATIN.VOR -j=RUN_AT.in")
 
-# Percorrer cada diretório e descompactar o arquivo tr_trs_neg.gz
-for diretorio in os.listdir(caminho_dados):
-    print(diretorio)
-    if os.path.isdir(os.path.join(caminho_dados, diretorio)):
-        caminho_arquivo_gz = os.path.join(caminho_dados, diretorio, "tr_trs_neg.gz")
-        if os.path.exists(caminho_arquivo_gz):
-            os.system(f"gunzip {caminho_arquivo_gz}")
+
+
+# # Percorrer cada diretório e descompactar o arquivo tr_trs_neg.gz
+# for diretorio in os.listdir(caminho_dados_tr_trs_neg):
+#     if os.path.isdir(os.path.join(caminho_dados_tr_trs_neg, diretorio)):
+#         caminho_arquivo_gz = os.path.join(caminho_dados_tr_trs_neg, diretorio, "tr_trs_neg.gz")
+#         if os.path.exists(caminho_arquivo_gz):
+#             os.system(f"gunzip {caminho_arquivo_gz}")
             
-            dia = diretorio[:2]
-            mes = diretorio[2:4]
-            ano = diretorio[4:8]
-            hora = '00'
-            data = ano+mes+dia+hora
+#             dia = diretorio[:2]
+#             mes = diretorio[2:4]
+#             ano = diretorio[4:8]
+#             hora = '00'
+#             data = ano+mes+dia+hora
             
-            caminho_arquivo_descompactado = os.path.join(caminho_dados, diretorio, "tr_trs_neg")
-            os.system(f"mv {caminho_arquivo_descompactado} /home/everson/Programas/track-master/utils/bin")
+#             caminho_arquivo_descompactado = os.path.join(caminho_dados_tr_trs_neg, diretorio, "tr_trs_neg")
             
-            # Muda para o diretrotio /utils/bin/
-            os.chdir('/home/everson/Programas/track-master/utils/bin/')    
+#             shutil.copy(caminho_arquivo_descompactado, utils_bin)
             
-            os.system(f"./count tr_trs_neg 0 0 5 4 0 {data} 3")
-        
-            os.system(f"mv tr_trs_neg.new {diretorio}")
+#             # Muda para o diretrotio /utils/bin/
+#             os.chdir('/home/bjerknes/TRACK-1.5.0/utils/bin/')    
+            
+#             if int(dia) >= 10 and int(dia) <=31:
+#                 os.system(f"./count tr_trs_neg 0 0 5 4 0 {data} 3")
     
-            os.system(f"tr2csv {diretorio}")
-            
-            os.system(f"mv alltr.csv  {diretorio}.csv")
-            
-            os.system(f"mv {diretorio}.csv /home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Track_planilhas_csv_passo_4/{diretorio}.csv")
-            
-            
+#                 os.system('mv ' + os.path.join(utils_bin,'tr_trs_neg.new') +' '+ os.path.join(utils_bin,diretorio))
+    
+#                 os.system(f"tr2csv {diretorio}")
+                
+    
+#                 os.system('mv ' + os.path.join(utils_bin,'alltr.csv') + ' ' + os.path.join(utils_bin, f'{diretorio}.csv'))
+                
+#                 path_ciclone = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Tracks_planilhas'
+    
+#                 os.system('cp ' + os.path.join(utils_bin, f'{diretorio}.csv') +' '+ os.path.join(path_ciclone, f'{diretorio}.csv'))
+#                 os.remove(f'{diretorio}')
+#             else:
+#                 dia = diretorio[:1]
+#                 mes = diretorio[1:3]
+#                 ano = diretorio[3:7]
+#                 hora = '00'
+#                 data = ano+mes+'0'+dia+hora
+                
+#                 os.system(f"./count tr_trs_neg 0 0 5 4 0 {data} 3")
+    
+#                 os.system('mv ' + os.path.join(utils_bin,'tr_trs_neg.new') +' '+ os.path.join(utils_bin,diretorio))
+    
+#                 os.system(f"tr2csv {diretorio}")
+#                 new_name = "0" + f"{diretorio}.csv"
+    
+#                 os.system('mv ' + os.path.join(utils_bin,'alltr.csv') + ' ' + os.path.join(utils_bin, new_name))
+                
+#                 path_ciclone = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Tracks_planilhas'
+    
+#                 os.system('cp ' + os.path.join(utils_bin, new_name) +' '+ os.path.join(path_ciclone, new_name))
+#                 os.remove(f'{diretorio}')
+                
+
+        
 # I.2 - Carrega a pasta contendo todas as planilhas dos Tracks
 
-datafiles = glob.glob('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Track_planilhas_csv_passo_4/*.csv')
+datafiles = glob.glob('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Tracks_planilhas/*.csv')
 datafiles.sort()
+
 
 # range = ao numero de meses, poderia usar o range(len(datafiles))
 for i in range(len(datafiles)):
@@ -148,15 +191,15 @@ for i in range(len(datafiles)):
     #adiciona os rotulos das colunas
     df = pd.DataFrame(path, columns = ['N_do_Ciclone', 'Data', 'Longitude', 'Latitude', 'Vorticidade'])
     
-    data = datafiles[i].split('/')[8].split('.')[0]
-    
-    
+    nome = datafiles[i].split('/')
+    data = nome[-1].split('.')[0]
+ 
     # III - Converte as longitudes para -180 a 180 graus
     
     # converte e recorta latitude/longitude
     df['Longitude'] = (((df['Longitude']+180) %360) - 180)
     
-    df = df[(df.Longitude>=-57) & (df.Longitude<=-40) & (df.Latitude<=-34) & (df.Latitude>=-58)].copy()
+    df = df[(df.Longitude>=-60) & (df.Longitude<=-30) & (df.Latitude<=-20) & (df.Latitude>=-50)].copy()
     
     
     # IV - Remove a ocorrencia de ciclones a partir de um numero pré-definido (exemplo = 4)
@@ -174,7 +217,7 @@ for i in range(len(datafiles)):
     # V - Salva a planilha dentro da pasta automaticamente a partir do rotulo 'Data'
     
     #salva a planilha recortada
-    df.to_csv(f'/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Planilhas_recortadas_padrão_5/{(data)}.csv', index=False)    
+    df.to_csv(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Tracks_recortados/{(data)}.csv', index=False)    
     # df.to_csv(f'/work/archive/Everson/Coqueiro/CENPES/DADOS/track/rodada_1/.csv', index=False) 
     
     
@@ -185,13 +228,13 @@ for i in range(len(datafiles)):
     latmin, latmax = -50, -20
     lonmin, lonmax = -60, -30
     
-    fig = plt.figure(figsize=(10,5))
+    fig = plt.figure(figsize=(10,10))
     args = dict(color='gray',
                 alpha=1.0, 
                 linestyle='--', 
                 linewidth=0.5,
-                xlocs=np.arange(lonmin, lonmax, 10), 
-                ylocs=np.arange(latmin, latmax, 10), 
+                xlocs=np.arange(lonmin, lonmax, 2), 
+                ylocs=np.arange(latmin, latmax, 2), 
                 draw_labels=True)
     
     
@@ -208,8 +251,10 @@ for i in range(len(datafiles)):
     ax.set_extent([lonmin, lonmax, latmin, latmax], ccrs.PlateCarree())
     ax.add_feature(cfeature.LAND)
     ax.coastlines(resolution='50m', color='black', linewidth=1)
-
-
+    ax.set_title(f'{data}')
+    
+    
+    
     #one_ciclone = data[(data.N_do_Ciclone == 200)].copy()
     def plot_cyclones(ciclone):
 
@@ -248,7 +293,30 @@ for i in range(len(datafiles)):
     for Ciclone in ciclones:
         one_ciclone = df[(df.N_do_Ciclone == Ciclone)].copy()
         plot_cyclones(one_ciclone)
+        # print(one_ciclone)
+        
         
         
         
     plt.show()
+
+
+# # limpa as pastas
+
+# # Remove .nc do indat        
+# for filename_nc in os.listdir(indat):
+#     if filename_nc.endswith(".nc"):
+#         file_path = os.path.join(indat,filename_nc)
+#         os.remove(file_path)
+        
+# # Remove os .csv do utils_bin
+# for filename in os.listdir(utils_bin):
+#     if filename.endswith(".csv"):
+#         file_path = os.path.join(utils_bin, filename)
+#         os.remove(file_path)
+        
+# # Remove .dat do indat  
+# for filename_dat in os.listdir(indat):
+#     if filename_dat.endswith('.dat'):
+#         file_path = os.path.join(indat,filename_dat)
+#         os.remove(file_path)
