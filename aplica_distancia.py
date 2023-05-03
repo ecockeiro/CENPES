@@ -55,6 +55,10 @@ for i in range(len(rodada[:11])):
     # Loop de linhas 
     if comp_count > ref_count:
         for k in range(len(comparacao[:ref_count])-1):
+            data = comparacao['Data'][:]
+            mask = referencia['Data'].str.contains(data)
+            df_data = referencia[mask]
+            
             distancia = calcular_distancia(comparacao['Latitude'][k], comparacao['Longitude'][k], referencia['Latitude'][k], referencia['Longitude'][k])
             dist = round(distancia, 2)
             
