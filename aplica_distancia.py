@@ -35,17 +35,17 @@ def calcular_distancia(lat1, lon1, lat2, lon2):
 
 
 # dataset
-rodada = glob.glob("/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Planilhas_normalizadas/Rodadas/*.csv")
+rodada = glob.glob("/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Extratropical/Rodadas/*.csv")
 rodada.sort(reverse=True)
 
-referencia = pd.read_csv('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Planilhas_normalizadas/Analise/analise_era5.csv')
+referencia = pd.read_csv('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Extratropical/Analise/extra_ERA5.csv')
 ref_count = len(referencia['N_do_Ciclone'])
 
-planilha_nova = pd.read_csv('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/distancia/distancia_yakecan.csv')
+planilha_nova = pd.read_csv('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Extratropical/Distancia/Extra_distancia.csv')
 count_hora = 0
 
 # Loop de planilhas csv
-for i in range(len(rodada[:11])):
+for i in range(len(rodada[:])):
     
 
 
@@ -55,10 +55,6 @@ for i in range(len(rodada[:11])):
     # Loop de linhas 
     if comp_count > ref_count:
         for k in range(len(comparacao[:ref_count])-1):
-            data = comparacao['Data'][:]
-            mask = referencia['Data'].str.contains(data)
-            df_data = referencia[mask]
-            
             distancia = calcular_distancia(comparacao['Latitude'][k], comparacao['Longitude'][k], referencia['Latitude'][k], referencia['Longitude'][k])
             dist = round(distancia, 2)
             
@@ -76,7 +72,7 @@ for i in range(len(rodada[:11])):
             
         count_hora += 24
     
-planilha_nova.to_csv('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/distancia/dist_yakecan.csv', index=False, header=True)
+planilha_nova.to_csv('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Extratropical/Distancia/Extra_distancia.csv', index=False, header=True)
 
 
             

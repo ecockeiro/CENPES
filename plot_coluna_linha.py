@@ -12,10 +12,10 @@ import pandas as pd
 import numpy as np
 
 # dataset
-rodada = glob.glob("/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Planilhas_normalizadas/Rodadas/*.csv")
+rodada = glob.glob("/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Yakecan/Rodadas/*.csv")
 rodada.sort(reverse=True)
 
-referencia = pd.read_csv('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Yakecan/Planilhas_normalizadas/Analise/analise_era5.csv')
+referencia = pd.read_csv('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Yakecan/Analise/analise_era5.csv')
 
 
 # Hora de previsao
