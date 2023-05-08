@@ -19,11 +19,11 @@ import cartopy.io.shapereader as shpreader # Import shapefiles
 import imageio.v2 as imageio
 
 # dataset
-datafiles = glob.glob("/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Sintese/Yakecan/Todos/*.csv")
+datafiles = glob.glob("/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Yakecan/Todos/*.csv")
 datafiles.sort(reverse=True)
 
 lonmin, lonmax = -54, -20
-latmin, latmax = -42, -23
+latmin, latmax = -43, -26
 
 # fig = plt.figure(figsize=(10,6))
 # ax = fig.add_subplot(111)
@@ -53,7 +53,7 @@ ax.coastlines(resolution='50m', color='black', linewidth=1)
 
 shapefile = list(
     shpreader.Reader(
-    '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/Coisas/br_unidades_da_federacao/BR_UF_2019.shp'
+    '/home/everson/Downloads/GFS-analysis_and_forecast-main/shapefiles/BR_UF_2021/BR_UF_2021.shp'
     ).geometries()
     )
 ax.add_geometries(
@@ -104,15 +104,15 @@ for jj in range(numero):
     # plt.savefig(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5{(numero)}_tracks.png', bbox_inches='tight')
 
     # Salvar a figura atual em um arquivo de imagem
-    filename = f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5_{(numero)}_tracks.png'
+    filename = f'/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/imagens/Yakecan/trajetória_Yakecan_GFSxERA5_{(numero)}_tracks.png'
     plt.savefig(filename, dpi=100, bbox_inches='tight')
     
     # Adicionar o arquivo de imagem à lista de imagens
     images.append(imageio.imread(filename))
     
     # Salvar a lista de imagens como um arquivo .gif
-    filename = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5.gif'
-    imageio.mimsave(filename, images, format='GIF', duration=0.5, subrectangles=True, subrectangles_palette=256, palettesize=256, quantizer='nq') # duration em ms (milisegundos)
+    filename = '/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/imagens/Yakecan/trajetória_Yakecan_GFSxERA5.gif'
+    imageio.mimsave(filename, images, format='GIF', duration=1, fps=1) # duration em ms (milisegundos)
     
 
 
