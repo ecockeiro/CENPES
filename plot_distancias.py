@@ -10,11 +10,11 @@ import matplotlib.pyplot as plt
 import datetime
 import pandas as pd
 
-df = pd.read_csv('/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/Ciclones/Extratropical/Distancia/Extra_distancia.csv')
+df = pd.read_csv('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Sintese/Extratropical/Distancia/Extra_distancia.csv')
     
 
 # Criando o gráfico de linhas
-plt.figure(figsize=(20, 10)) # Define o tamanho da figura
+plt.figure(figsize=(23, 10), dpi=300) # Define o tamanho da figura
 # plt.plot(df['Data'], df['0h'], label='D-0')
 # plt.plot(df['Data'], df['24h'], label='D-1')
 # plt.plot(df['Data'], df['48h'], label='D-2')
@@ -37,9 +37,11 @@ plt.plot(df['Data'], df['216h'], label='216h')
 plt.plot(df['Data'], df['240h'], label='240h')
 
 # Configurando os eixos e a legenda
-plt.xlabel('Dia e hora')
-plt.ylabel('Distância em Km entre a rodada e o observado')
-plt.legend(title='Rodadas')
-plt.title('Extratropical')
+plt.xlabel('Dia e hora', fontsize=20)
+plt.ylabel('Distância em Km entre a rodada e o observado', fontsize=20)
+plt.xlabel_style = {'size': 15, 'color': 'black'}
+plt.ylabel_style = {'size': 15, 'color': 'black'}
+plt.legend(title='Rodadas', loc='upper right', fontsize=15, title_fontsize=20)
+plt.title('Extratopical', fontsize=24)
 
-plt.savefig(f'/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/imagens/Extratropical/Extra_delay.png', bbox_inches='tight')
+plt.savefig(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/Gráficos/Extratropical/Extratropical_hora.png', bbox_inches='tight')

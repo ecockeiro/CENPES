@@ -16,19 +16,19 @@ import glob
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as shpreader # Import shapefiles
-import imageio
+import imageio.v2 as imageio
 
 # dataset
-datafiles = glob.glob("/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Raoni/Tracks_recortados/certas/*.csv")
+datafiles = glob.glob("/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Sintese/Yakecan/Todos/*.csv")
 datafiles.sort(reverse=True)
 
-lonmin, lonmax = -57, -25
-latmin, latmax = -42, -26
+lonmin, lonmax = -54, -20
+latmin, latmax = -42, -23
 
 # fig = plt.figure(figsize=(10,6))
 # ax = fig.add_subplot(111)
 #to read individual data files containing the coordinates of the track for each typhoon
-fig = plt.figure(figsize=(17, 10))
+fig = plt.figure(figsize=(17, 15), dpi=100)
 ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
 
 args = dict(draw_labels=True,
@@ -64,12 +64,12 @@ ax.add_geometries(
     )
 
 colors_0 = ['black','red','blue','orange','gray','cyan','orangered','green','magenta','midnightblue', 'navy', 'purple', 'brown', 'lime']
-colors_1 = ['red', 'black', 'dimgray', 'dimgrey', 'gray', 'grey', 'dimgray', 'dimgrey', 'gray', 'grey', 'dimgray', 'dimgrey', 'gray', 'grey']
+colors_1 = ['red', 'black', 'dimgray', 'dimgrey', 'gray', 'grey', 'darkgray', 'darkgray', 'darkgrey', 'darkgrey', 'silver', 'silver', 'lightgray', 'lightgray']
  #default colors from Python (can be automated if the order is not important)
 # mark = ['o', 'v', 's', '^', '*', 'D', '+', 'x', '1', '4','P', '<','>', 'd']
 
 # Quantidade de ciclones para plotar
-numero = 7
+numero = 12
 images = []
 for jj in range(numero):
     #abre uma planilha por vez
@@ -95,25 +95,25 @@ for jj in range(numero):
     lons = dff['Longitude'].values
     lats = dff['Latitude'].values
    
-    ax.plot(lons, lats,color=colors_1[jj],linestyle=':', marker='.', ms=6, zorder=5, label=f"TRACK {jj} ({rodada})")
-    ax.set_title(f"Trajetória do Raoni GFS x ERA5 - {(numero)} tracks", 
+    ax.plot(lons, lats,color=colors_1[jj],linestyle=':', marker='.', linewidth=2.2 , ms=8, zorder=7, label=f"TRACK {jj} ({rodada})")
+    ax.set_title(f"Trajetória Yakecan GFS x ERA5 - {(numero)} tracks", 
                  fontweight='bold', 
-                 fontsize=20,)
-    ax.legend(loc='lower right')
+                 fontsize=23)
+    ax.legend(loc='upper right', fontsize=18)
     
-    # plt.savefig(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_raoni_GFSxERA5{(numero)}_tracks.png', bbox_inches='tight')
+    # plt.savefig(f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5{(numero)}_tracks.png', bbox_inches='tight')
 
     # Salvar a figura atual em um arquivo de imagem
-    filename = f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_yakecan_GFSxERA5{(jj+1):02}.png'
-    plt.savefig(filename, bbox_inches='tight')
+    filename = f'/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5_{(numero)}_tracks.png'
+    plt.savefig(filename, dpi=100, bbox_inches='tight')
     
     # Adicionar o arquivo de imagem à lista de imagens
     images.append(imageio.imread(filename))
     
     # Salvar a lista de imagens como um arquivo .gif
-    filename = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_yakecan_GFSxERA5.gif'
-    imageio.mimsave(filename, images, duration=0.5)
-
+    filename = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/Imagens/trajetória_Yakecan_GFSxERA5.gif'
+    imageio.mimsave(filename, images, format='GIF', duration=0.5, subrectangles=True, subrectangles_palette=256, palettesize=256, quantizer='nq') # duration em ms (milisegundos)
+    
 
 
 
