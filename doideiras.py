@@ -17,41 +17,57 @@ import xarray as xr
 
 
 
-# Calculo da vorticidade relativa em 850hPa
+
 
 # Dataset vento
-vento = xr.open_mfdataset('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/nc/dados_extraidos/vento/*.nc')
+diretorio_pastas = '/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/nc/dados_extraidos/vento/'
 
-# Seleciona o nivel
-vento_850 = vento.sel(level0=850)
+# função que lê as pastas em um diretório
+def get_folders(directory):
+    return [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
 
-# Atribuiçao de nome mais elucidativo 
-vento['u'] = vento_850['U_GRD_L100'].copy()
-vento['v'] = vento_850['V_GRD_L100'].copy()
+# lista de pasta para serem selecionadas
+folders = get_folders(diretorio_pastas)
+# folders.sort(reverse=True)
 
-# Vai preenchendo o np.array...
-vort_850= mpcalc.vorticity(vento.u, vento.v)
-
-# Cria o datarray dentro da estrutura do dado 
-vento['vo'] = vento['u'].copy()
-vento['vo'].data = vort_850
-vento['vo'] = xr.DataArray(vort_850, dims = ['time','lat','lon'])   
-vento['vo'].attrs['standard_name'] = 'atmosphere_relative_vorticity'
-vento['vo'].attrs['long_name'] = 'Vorticity (relative)'
-vento['vo'].attrs['units'] = 's**-1'
-vento['lat'].attrs['units'] = 'degrees_north'
-vento['lon'].attrs['units'] = 'degrees_east'
-
-# Deixa somente o vort_850 dentro do data
-vor = vento[['vo']]
-vor = vor.chunk()
+# Converte as componentes u e v em vorticidade relativa 
+for j in range(len(folders)):
+    # path_name = str(diretorio_pastas) + '/' + str(folders[j])
+    
+    path_name = os.path.join(diretorio_pastas, folders[j])
+    vento = xr.open_mfdataset(f'{path_name}/*.nc')
+    
+    pressao_name = path_name.replace('vento', 'pressao')
+    pressao = xr.open_mfdataset(f'{pressao_name}/*.nc')
+    
+    # Calculo da vorticidade relativa em 850hPa
+    # Seleciona o nivel
+    vento_850 = vento.sel(level0=850)
+    
+    # Atribuiçao de nome mais elucidativo 
+    vento['u'] = vento_850['U_GRD_L100'].copy()
+    vento['v'] = vento_850['V_GRD_L100'].copy()
+    
+    # Vai preenchendo o np.array...
+    vort_850= mpcalc.vorticity(vento.u, vento.v)
+    
+    # Cria o datarray dentro da estrutura do dado 
+    vento['vo'] = vento['u'].copy()
+    vento['vo'].data = vort_850
+    vento['vo'] = xr.DataArray(vort_850, dims = ['time','lat','lon'])   
+    vento['vo'].attrs['standard_name'] = 'atmosphere_relative_vorticity'
+    vento['vo'].attrs['long_name'] = 'Vorticity (relative)'
+    vento['vo'].attrs['units'] = 's**-1'
+    vento['lat'].attrs['units'] = 'degrees_north'
+    vento['lon'].attrs['units'] = 'degrees_east'
+    
+    # Deixa somente o vort_850 dentro do data
+    vor = vento[['vo']]
+    vor = vor.chunk()
 ##########################################################################################################################
 
-# Dataset pressao
-pressao = xr.open_mfdataset('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/nc/dados_extraidos/pressao/*.nc')
 
-# Diretório com os CSVs
-directory = glob.glob('/media/bjerknes/HD_todo_pod/Everson/Coqueiro/CENPES/DADOS/Ciclones/novo_extra/*.csv')
+
 
 
 
