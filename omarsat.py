@@ -120,11 +120,6 @@ for j in range(len(folders)):
             
             csv_novo.to_csv(f'/home/everson/Documentos/ssd_antigo/maq_virtual/CENPES/OMARSAT/planilhas_extraidas/{nome_ciclone}/{folders[j]}.csv', index=False)
         
-    # plt.figure(figsize=(15,10))
-    # # plt.plot(csv_novo['date'][:6], csv_novo['vort'][:6]*10**5)
-    # # plt.plot(csv_novo['date'][:6], csv_novo['vento_mag'][:6])
-    # plt.plot(csv_novo['date'][:6], csv_novo['pressao'][:6])
-    # plt.xticks(rotation=45)
     
 
 ##########################################################################################################################
